@@ -1,5 +1,5 @@
 class Food {
-    constructor(s, food_size){
+    constructor(s){
         let choices = [];
         for (let i = 0; i < number_row; i++){
             for (let j = 0; j < number_col; j++){

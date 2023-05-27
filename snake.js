@@ -1,6 +1,6 @@
 // Declaration
 class Snake {
-    constructor(x, y, size) {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
         this.snake_size = width/number_row * 0.4;
@@ -72,7 +72,7 @@ class Snake {
     }
 
     alive(){
-        if(this.x < 0 || this.x > number_col || this.y < 0 || this.y > number_row)  // out of bounds | hit a wall
+        if(this.x < 0 || this.x >= number_col || this.y < 0 || this.y >= number_row)  // out of bounds | hit a wall
             return false;
         for(let i = 0; i < this.body.length; i++){
             if(this.x == this.body[i][0] && this.y == this.body[i][1]) // hit itself

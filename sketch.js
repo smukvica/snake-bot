@@ -13,25 +13,21 @@ let food;
 let state = "wait";
 let mode = "manual";
 
+let fps = 8;
+let frame = 0;
+
 function setup() {
-    frameRate(8);
+    frameRate(60);
+    
     let myCanvas = createCanvas(width, height);
     myCanvas.parent('myContainer');
 
-    let button1 = createButton('start');
-    //button1.position(windowWidth * 0.5 - button1.width * 0.5, windowHeight * 0.8);
-    button1.parent('buttons');
-    button1.mousePressed(start);
-
-    let button2 = createButton('reset');
-    //button2.position(windowWidth * 0.5 - button2.width * 0.5, windowHeight * 0.8 + 30);
-    button2.parent('buttons');
-    button2.mousePressed(restart);
-
-    let button3 = createButton('auto');
-    //button3.position(windowWidth * 0.5 - button3.width * 0.5, windowHeight * 0.8 + 60);
-    button3.parent('buttons');
-    button3.mousePressed(bot);
+    let s1 = select("#num_row");
+    let s2 = select("#num_col");
+    number_row = s1.value();
+    number_col = s2.value();
+    offset_x = width/number_row * 0.5;
+    offset_y = height/number_col * 0.5;
 
     snake = new Snake(round(number_col/4),round(number_row/2));
     food = new Food(snake);
@@ -40,10 +36,10 @@ function setup() {
 }
   
 function draw() {
-    background(245,245,245);
+    background(200,200,200);
 
     // draw lines
-    stroke(200);
+    stroke(150);
     // vertical
     for (let x = width/number_row; x < width; x+=width/number_row){
         line(x, 0, x, height);
@@ -53,19 +49,22 @@ function draw() {
         line(0, y, width, y);
     }
 
-    if(state == "game"){
+    if(state == "game" && frame >= 60/fps){
         snake.update(mode);
         if(!snake.alive()){
             state = "over";
         }
 
         check_food();
+        frame = 0;
     }
     food.draw();
     snake.draw();
     if(state == "over"){
         draw_over();
     }
+    frame++;
+    //console.log(frame);
 }
 
 function draw_over(){
@@ -103,8 +102,6 @@ function keyPressed() {
     } else if (keyCode === RIGHT_ARROW) {
         snake.set_dir(1, 0);
     }
-    if (state == "wait")
-        state = "game";
 }
 
 function on_screen_coord(x,y){
@@ -114,6 +111,19 @@ function on_screen_coord(x,y){
 function start(){
     state="game";
     mode="manual";
+}
+
+function setup_values(){
+    let s1 = select("#num_row");
+    let s2 = select("#num_col");
+    number_row = s1.value();
+    number_col = s2.value();
+    snake = new Snake(round(number_col/4),round(number_row/2));
+    food = new Food(snake);
+    snake.calculate_new_route(food);
+    offset_x = width/number_row * 0.5;
+    offset_y = height/number_col * 0.5;
+    fps = parseInt(select("#framerate").value());
 }
 
 function restart(){
