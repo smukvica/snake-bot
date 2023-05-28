@@ -15,8 +15,7 @@ class Food {
                 }
             }
         }
-        //console.log(choices);
-        let r = round(random(choices.length)-1);
+        let r = round(random(choices.length-1));
         this.x = choices[r][0];
         this.y = choices[r][1];
         this.food_size = width/number_row * 0.45;

@@ -63,6 +63,9 @@ function draw() {
     if(state == "over"){
         draw_over();
     }
+    if(state == "win"){
+        draw_win();
+    }
     frame++;
     //console.log(frame);
 }
@@ -83,10 +86,30 @@ function draw_over(){
     text('Score: '+snake.snake_length, width/2, height/2 + 50);
 }
 
+function draw_win(){
+    stroke("white");
+    fill("white");
+    rect(width/2 - 150, height/2 - 75, 300, 150);
+
+    stroke("red");
+    fill("red");
+    textAlign(CENTER);
+    textSize(50);
+    text('You won!', width/2, height/2);
+    stroke("black");
+    fill("black");
+    textSize(32);
+    text('Score: '+snake.snake_length, width/2, height/2 + 50);
+}
+
 function check_food(){
     if(snake.x == food.x && snake.y == food.y){
-        food = new Food(snake);
         snake.eat_fruit();
+        if(snake.snake_length < number_col*number_row){
+            food = new Food(snake);
+        }else{
+            state = "win";
+        }
         if(mode == "auto")
             snake.calculate_new_route(food);
     }

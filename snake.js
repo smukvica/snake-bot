@@ -7,7 +7,7 @@ class Snake {
         this.dir_x = 1;
         this.dir_y = 0;
         this.body = [[x-1, y], [x-2, y]];
-        this.snake_length = this.body.length;
+        this.snake_length = this.body.length + 1;
         this.path = [];
         this.command_queue = [];
     }
@@ -29,6 +29,9 @@ class Snake {
             let next = this.path.pop();
             this.x = next[0];
             this.y = next[1];
+            if(this.found_path == false){
+                this.calculate_new_route(this.food);
+            }
         }
     }
 
@@ -82,40 +85,20 @@ class Snake {
     }
 
     calculate_new_route(food){
-        let temp = [this.x,this.y];
-        let snake_route = [];
-    
-        let field = new Array(number_row);
-        
-        for(let i = 0; i < number_row; i++){
-            field[i] = new Array(number_col).fill(0);
+
+        this.path = a_star(this, food.x, food.y);
+        if(this.path != -1){    // found path to food we can return
+            console.log("found");
+            // check if we can get from food to tail after we eat it
+
+            // simulate snake to food
+
+            // calculate path to tail 
+            // if found we gucci
+            // if not found we abandon food path and take path to tail(this never fails because it was calculated the step before we ate current food). 
+            // after keep rechecking every step to get path to food
+            this.found_path = true;
         }
-    
-        field[this.x][this.y] = this.snake_length;
-        let current = this.snake_length - 1;
-        for(let i = 0; i < this.body.length; i++){
-            field[this.body[i][1]][this.body[i][0]] = current;
-            current--;
-        }
-    
-        field[food.x][food.y] = -1;
-    
-        while(temp[0] != food.x){
-            if(food.x > temp[0])
-                temp[0]++;
-            else
-                temp[0]--;
-            snake_route.push([temp[0], temp[1]]);
-        }
-        while(temp[1] != food.y){
-            if(food.y > temp[1])
-                temp[1]++;
-            else
-                temp[1]--;
-            snake_route.push([temp[0], temp[1]]);
-        }
-    
-        this.path = snake_route.reverse();
     }
 }
 
