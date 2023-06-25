@@ -33,9 +33,6 @@ function a_star(snake, goal_x, goal_y){
         temp_length--;
     }
 
-    //console.log(field);
-    
-
     let open = [];
     let closed = [];
 
@@ -84,7 +81,6 @@ function a_star(snake, goal_x, goal_y){
 
         counter++;
         if(counter > number_col * number_row * 10){
-            print(counter);
             return -1;
         }
     }
@@ -150,4 +146,8 @@ function neighour_is_in_set(x, y, set){
             return i;
     }
     return -1;
+}
+
+function lenghten_path(snake){
+    // TO DO
 }

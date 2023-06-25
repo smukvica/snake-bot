@@ -30,7 +30,6 @@ class Snake {
             this.x = next[0];
             this.y = next[1];
             if(this.found_path == false){
-                console.log("here");
                 this.calculate_new_route(this.food);
             }
         }
@@ -90,25 +89,24 @@ class Snake {
         let path_candidate = a_star(this, food.x, food.y);   // calculate path to food
 
         if(path_candidate == -1){    // path wasn't found
-            console.log("not found");
             let tmp = a_star(this, this.body[this.body.length - 1][0], this.body[this.body.length - 1][1]);   // path to tail
-            //console.log(tmp);
             this.path = tmp;
+            
+            if(tmp.length < 3){ // short path to tail - head next to tail,  try lenghtening path
+                lenghten_path(this);
+            }
+            
             this.food = food;   // food set for next path search
             this.found_path = false;    // set path not found to search each iteration for path
             return;
         } 
 
         if(path_candidate != -1){    // path was found
-            console.log("found");
-
             // check if we can get to tail after we eat food
             let clone = new Snake(this.x, this.y);  
             clone.body = structuredClone(this.body);
             clone.path = structuredClone(path_candidate);
             clone.snake_length = this.snake_length;
-
-            console.log("length:", clone.body.length, this.body.length);
 
             while(1){
                 if(clone.x == food.x && clone.y == food.y){
@@ -119,10 +117,7 @@ class Snake {
             clone.eat_fruit();
 
             let tail_path = a_star(clone, clone.body[clone.body.length - 1][0], clone.body[clone.body.length - 1][1]);
-            clone.draw("blue");
-            console.log("tail path: ", tail_path);
             if(tail_path == -1 || tail_path.length < 2){    // can't get to tail after
-                console.log("found but can't tail");
                 this.path = a_star(this, this.body[this.body.length - 1][0], this.body[this.body.length - 1][1]);   // go to tail now
                 this.found_path = false;
                 this.food = food;
