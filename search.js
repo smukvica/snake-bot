@@ -25,9 +25,10 @@ function a_star(snake, goal_x, goal_y){
 
     field.fill(0);
 
-    let temp_length = snake.body.length;
-    field[get_index(snake.x, snake.y)] = snake.snake_length;
-    for(let i = 0; i < snake.body.length-1; i++){
+    let temp_length = snake.snake_length;
+    field[get_index(snake.x, snake.y)] = temp_length;
+    temp_length--;
+    for(let i = 0; i < snake.body.length; i++){
         field[get_index(snake.body[i][0], snake.body[i][1])] = temp_length;
         temp_length--;
     }
@@ -82,7 +83,7 @@ function a_star(snake, goal_x, goal_y){
         closed.push(current_node);
 
         counter++;
-        if(counter > 10000){
+        if(counter > number_col * number_row * 10){
             print(counter);
             return -1;
         }

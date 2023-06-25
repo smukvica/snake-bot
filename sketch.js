@@ -59,7 +59,7 @@ function draw() {
         frame = 0;
     }
     food.draw();
-    snake.draw();
+    snake.draw("green");
     if(state == "over"){
         draw_over();
     }
