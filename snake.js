@@ -86,15 +86,15 @@ class Snake {
 
     calculate_new_route(food){
 
-        let path_candidate = a_star(this, food.x, food.y);   // calculate path to food
+        let path_candidate = a_star(this, this.x, this.y, food.x, food.y);   // calculate path to food
 
         if(path_candidate == -1){    // path wasn't found
-            let tmp = a_star(this, this.body[this.body.length - 1][0], this.body[this.body.length - 1][1]);   // path to tail
-            this.path = tmp;
+            let tmp = a_star(this, this.x, this.y, this.body[this.body.length - 1][0], this.body[this.body.length - 1][1]);   // path to tail
+            if(tmp != -1)
+                this.path = tmp;
             
-            if(tmp.length < 3){ // short path to tail - head next to tail,  try lenghtening path
-                lenghten_path(this);
-            }
+            // short path to tail - head next to tail,  try lenghtening path
+            this.path = long_path(this);;
             
             this.food = food;   // food set for next path search
             this.found_path = false;    // set path not found to search each iteration for path
@@ -116,9 +116,9 @@ class Snake {
             }
             clone.eat_fruit();
 
-            let tail_path = a_star(clone, clone.body[clone.body.length - 1][0], clone.body[clone.body.length - 1][1]);
+            let tail_path = a_star(clone, clone.x, clone.y, clone.body[clone.body.length - 1][0], clone.body[clone.body.length - 1][1]);
             if(tail_path == -1 || tail_path.length < 2){    // can't get to tail after
-                this.path = a_star(this, this.body[this.body.length - 1][0], this.body[this.body.length - 1][1]);   // go to tail now
+                this.path = a_star(this, this.x, this.y, this.body[this.body.length - 1][0], this.body[this.body.length - 1][1]);   // go to tail now
                 this.found_path = false;
                 this.food = food;
                 return;

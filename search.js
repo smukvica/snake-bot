@@ -19,7 +19,7 @@ class GraphNode{
 }
 
 
-function a_star(snake, goal_x, goal_y){
+function a_star(snake, start_x, start_y, goal_x, goal_y){
 
     let field = new Array(number_col * number_row);
 
@@ -36,7 +36,7 @@ function a_star(snake, goal_x, goal_y){
     let open = [];
     let closed = [];
 
-    temp = new GraphNode(snake.x, snake.y, null, null, goal_x, goal_y);
+    temp = new GraphNode(start_x, start_y, null, null, goal_x, goal_y);
     temp.g = 0;
 
     open.push(temp);
@@ -148,6 +148,29 @@ function neighour_is_in_set(x, y, set){
     return -1;
 }
 
-function lenghten_path(snake){
+function long_path(snake){
     // TO DO
+    let field = new Array(number_col * number_row);
+
+    field.fill(0);
+
+    field[get_index(snake.x, snake.y)] = 1;
+    for(let i = 0; i < snake.body.length; i++){
+        field[get_index(snake.body[i][0], snake.body[i][1])] = 1;
+    }
+
+    let neighbours = get_neighbours(snake.x, snake.y, field, 0);
+
+    for(let i = 0; i < neighbours.length; i++){
+        let n = neighbours[i];
+        if(field[get_index(n[0], n[1])] == 1){ // neighbour is not free cell
+            continue;
+        }
+        let tmp = a_star(snake, n[0], n[1], snake.body[snake.body.length - 1][0], snake.body[snake.body.length - 1][1]);
+        if(tmp != -1){
+            tmp.push(n);
+            return tmp;
+        }
+    }
+    return snake.path;
 }
