@@ -1,8 +1,8 @@
 let number_col = 15;
 let number_row = 15;
 
-let width = 800;
-let height = 800;
+let width = 0;
+let height = 0;
 
 let offset_x = width/number_row * 0.5;
 let offset_y = height/number_col * 0.5;
@@ -18,6 +18,9 @@ let frame = 0;
 
 function setup() {
     frameRate(60);
+
+    width = windowWidth / 3;
+    height = windowWidth / 3;
     
     let myCanvas = createCanvas(width, height);
     myCanvas.parent('myContainer');
@@ -161,8 +164,13 @@ function bot(){
     mode = "auto";
 }
 
-function print_field(field){
-    for(let i = 0; i < number_row; i++){
-        console.log(...field[i]);
-    }
-}
+function windowResized() {
+    width = windowWidth / 3;
+    height = windowWidth / 3;
+    snake = new Snake(round(number_col/4),round(number_row/2));
+    food = new Food(snake);
+    snake.calculate_new_route(food);
+    offset_x = width/number_row * 0.5;
+    offset_y = height/number_col * 0.5;
+    resizeCanvas(width, height);
+  }

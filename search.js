@@ -149,7 +149,6 @@ function neighour_is_in_set(x, y, set){
 }
 
 function long_path(snake){
-    // TO DO
     let field = new Array(number_col * number_row);
 
     field.fill(0);

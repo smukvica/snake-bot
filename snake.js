@@ -88,6 +88,9 @@ class Snake {
 
         let path_candidate = a_star(this, this.x, this.y, food.x, food.y);   // calculate path to food
 
+        if(this.snake_length == number_col * number_row - 1)    // win condition
+            return;
+
         if(path_candidate == -1){    // path wasn't found
             let tmp = a_star(this, this.x, this.y, this.body[this.body.length - 1][0], this.body[this.body.length - 1][1]);   // path to tail
             if(tmp != -1)
