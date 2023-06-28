@@ -8,7 +8,7 @@ The game can be accessed [Here](https://smukvica.github.io/snake-bot/).
 
 ## Instructions
 
-To play the game simply open up the webpage.
+To play the game simply open up the webpage. To play manualy use arrow keys.
 
 ----
 
@@ -32,4 +32,4 @@ The auto bot simply uses A* algorithm to find the closest path to the food. In t
 
 ### Issues
 
-As of now the bot sometimes doesn't always win the game and loops itself in catching it's own tail. Sometimes it also decides to leave this plane of existence and crashes into itself resulting in a premature end of game.
+As of now the bot doesn't always win the game and loops itself in catching it's own tail. Sometimes it also decides to leave this plane of existence and crashes into itself resulting in a premature end of game.
